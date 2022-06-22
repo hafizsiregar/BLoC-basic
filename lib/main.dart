@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'bloc_dengan_library_bloc/bloc/counter_bloc.dart';
+import 'package:latihan_bloc_dicoding/bloc_dengan_library_cubit/cubit/counter_cubit.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,9 +15,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: BlocProvider<CounterBloc>(
-        create: (_) => CounterBloc(),
+      home:BlocProvider<CounterCubit>(
+        create: (_) => CounterCubit(),
         child: const MyHomePage(title: 'Flutter Demo Home Page')),
+      
+      //! digunakan dengan library Bloc 
+      // BlocProvider<CounterBloc>(
+      //   create: (_) => CounterBloc(),
+      //   child: const MyHomePage(title: 'Flutter Demo Home Page')),
     );
   }
 }
@@ -36,6 +41,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   
+  //! digunakan pada saat tidak dengan library bloc
   // final counterBloc = CounterBloc();
 
   // @override
@@ -50,7 +56,8 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: BlocBuilder<CounterBloc, CounterState>(
+      //! digunakan pada saat dengan library cubit
+      body: BlocBuilder<CounterCubit, CounterState>(
         builder: (context, state) {
           return Center(
             child: Column(
@@ -68,6 +75,26 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         },
       ),
+
+      //! digunakan pada saat dengan library bloc
+      // BlocBuilder<CounterBloc, CounterState>(
+      //   builder: (context, state) {
+      //     return Center(
+      //       child: Column(
+      //         mainAxisAlignment: MainAxisAlignment.center,
+      //         children: <Widget>[
+      //           const Text(
+      //             'You have pushed the button this many times:',
+      //           ),
+      //           Text(
+      //             '${state.value}',
+      //             style: Theme.of(context).textTheme.headline4,
+      //           ),
+      //         ],
+      //       ),
+      //     );
+      //   },
+      // ),
 
       //! stream builder digunakan ketika tanpa library bloc
       // StreamBuilder(
@@ -94,7 +121,10 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           FloatingActionButton(
             onPressed: () {
-              context.read<CounterBloc>().add(Increment());
+              //! digunakan pada saat dengan library cubit
+              context.read<CounterCubit>().decrement();
+              //! digunakan pada saat dengan library bloc
+              // context.read<CounterBloc>().add(Decrement());
               //! eventSink digunakan ketika tanpa library bloc
               // counterBloc.eventSink.add(CounterEvent.Decrement);
             },
@@ -104,7 +134,10 @@ class _MyHomePageState extends State<MyHomePage> {
           const SizedBox(width: 8),
           FloatingActionButton(
             onPressed: () {
-              context.read<CounterBloc>().add(Decrement());
+               //! digunakan pada saat dengan library cubit
+              context.read<CounterCubit>().decrement();
+              //! digunakan pada saat dengan library bloc
+              // context.read<CounterBloc>().add(Increment());
               //! eventSink digunakan ketika tanpa library bloc
               // counterBloc.eventSink.add(CounterEvent.Increment);
             },
